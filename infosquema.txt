@@ -1,0 +1,38 @@
+1 Tablas de Usuarios y Permisos:
+users - Información básica de los usuarios
+user_teams - Relación muchos a muchos entre usuarios, equipos y temporadas
+2 Tablas de Jugadores:
+players - Información básica de los jugadores
+positions - Posiciones de fútbol
+player_positions - Relación muchos a muchos entre jugadores y posiciones
+youth_players - Jugadores de la cantera
+player_loans - Préstamos de jugadores
+player_medical_reports - Informes médicos de jugadores
+player_form - Estado de forma de los jugadores
+3 Tablas de Equipos:
+teams - Información básica de los equipos
+team_players - Relación muchos a muchos entre equipos y jugadores
+team_profiles - Perfiles de estilo de juego de los equipos
+team_budgets - Presupuestos de los equipos
+fanbase - Información de la base de aficionados
+4 Tablas de Partidos y Competiciones:
+matches - Partidos entre equipos
+match_results - Resultados de los partidos
+match_events - Eventos durante los partidos
+matchdays - Jornadas de la temporada
+standings - Clasificaciones
+tournaments - Torneos y competiciones
+seasons - Temporadas
+5 Tablas de Finanzas:
+financial_transactions - Transacciones financieras
+sponsors - Patrocinadores
+team_sponsors - Relación muchos a muchos entre equipos y patrocinadores
+transfer_clauses - Cláusulas de transferencia
+6 Otras Tablas:
+staff - Personal del equipo
+scouts - Ojeadores
+scouting_reports - Informes de ojeo
+media_articles - Artículos de prensa
+training_sessions - Sesiones de entrenamiento
+injuries - Lesiones de jugadores
+recovery_sessions - Sesiones de recuperación
