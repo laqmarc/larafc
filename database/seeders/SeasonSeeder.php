@@ -17,28 +17,25 @@ class SeasonSeeder extends Seeder
         if (DB::table('seasons')->count() === 0) {
             $now = now();
             
-            // Obtener o crear una liga por defecto (LaLiga España)
-            $leagueId = $this->getOrCreateDefaultLeague($now);
-            
             // Crear la temporada actual
             $currentYear = date('Y');
             $nextYear = $currentYear + 1;
             
             DB::table('seasons')->insert([
-                'league_id' => $leagueId,
                 'name' => "Temporada $currentYear/$nextYear",
                 'start_date' => "$currentYear-08-15",
                 'end_date' => "$nextYear-05-31",
+                'is_current' => true,
                 'created_at' => $now,
                 'updated_at' => $now,
             ]);
             
             // Crear la próxima temporada
             DB::table('seasons')->insert([
-                'league_id' => $leagueId,
                 'name' => "Temporada $nextYear/" . ($nextYear + 1),
                 'start_date' => "$nextYear-08-15",
                 'end_date' => "$nextYear-05-31",
+                'is_current' => false,
                 'created_at' => $now,
                 'updated_at' => $now,
             ]);
@@ -49,30 +46,5 @@ class SeasonSeeder extends Seeder
         }
     }
     
-    /**
-     * Obtiene o crea una liga por defecto (LaLiga España)
-     */
-    private function getOrCreateDefaultLeague($now)
-    {
-        $league = DB::table('leagues')
-            ->where('name', 'LaLiga')
-            ->orWhere('name', 'La Liga')
-            ->orWhere('name', 'LaLiga Santander')
-            ->orWhere('name', 'LaLiga EA Sports')
-            ->first();
-            
-        if ($league) {
-            return $league->id;
-        }
-        
-        // Si no existe, crear la liga
-        return DB::table('leagues')->insertGetId([
-            'name' => 'LaLiga EA Sports',
-            'country' => 'España',
-            'level' => 1,
-            'teams_number' => 20,
-            'created_at' => $now,
-            'updated_at' => $now,
-        ]);
-    }
+    // Eliminada la función getOrCreateDefaultLeague ya que ya no es necesaria
 }

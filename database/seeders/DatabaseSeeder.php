@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             TeamSeeder::class,
             StadiumSeeder::class, // Añadimos el seeder de estadios
             PlayerSeeder::class,   // Añadimos el seeder de jugadores
+            LeagueTeamSeeder::class, // Asociar equipos a ligas
         ]);
 
         // Crear usuario de prueba si es necesario
