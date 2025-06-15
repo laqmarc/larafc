@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             LeagueSeeder::class,
             TeamSeeder::class,
+            StadiumSeeder::class, // Añadimos el seeder de estadios
         ]);
 
         // Crear usuario de prueba si es necesario
