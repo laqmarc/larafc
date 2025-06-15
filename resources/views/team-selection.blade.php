@@ -30,7 +30,9 @@
 <body>
     <div class="container">
         <div class="selection-container text-center">
-            <img src="{{ asset('images/logo.png') }}" alt="Laravel FC" class="logo" onerror="this.src='https://via.placeholder.com/150?text=Laravel+FC'">
+            <div class="logo-container" style="width: 150px; height: 150px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; background-color: #f0f0f0; border-radius: 8px;">
+                <span style="text-align: center; padding: 10px; font-weight: bold;">Laravel FC</span>
+            </div>
             <h1 class="h3 mb-4">Selecciona el teu equip</h1>
             
             @if (session('error'))
@@ -95,10 +97,34 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        // Mostrar información del usuario autenticado
+        console.log('=== INFORMACIÓN DEL USUARIO AUTENTICADO ===');
+        console.log('Usuario ID:', {{ Auth::id() ?? 'null' }});
+        console.log('Nombre de usuario:', '{{ Auth::user()->name ?? "No autenticado" }}');
+        console.log('Email:', '{{ Auth::user()->email ?? "No disponible" }}');
+        console.log('==========================================');
+
         $(document).ready(function() {
+            // Mostrar información cuando se carga la página
+            console.log('=== PÁGINA CARGADA ===');
+            console.log('URL actual:', window.location.href);
+            console.log('Equipo seleccionado en sesión:', {{ session('selected_team_id') ?? 'null' }});
+            console.log('Liga seleccionada en sesión:', {{ session('selected_league_id') ?? 'null' }});
+            console.log('Temporada actual en sesión:', {{ session('selected_season_id') ?? 'null' }});
+            console.log('==========================');
+            
             // Cuando cambia la liga seleccionada
             $('#league').change(function() {
                 const leagueId = $(this).val();
+                const leagueName = $('#league option:selected').text().trim();
+                
+                // Actualizar el campo oculto del formulario
+                $('#leagueId').val(leagueId);
+                
+                console.log('=== CAMBIO DE LIGA ===');
+                console.log('Liga seleccionada - ID:', leagueId, 'Nombre:', leagueName);
+                console.log('Campo oculto actualizado a:', $('#leagueId').val());
+                console.log('====================');
                 const $teamSelect = $('#team');
                 const $teamLoading = $('#teamLoading');
                 const $submitBtn = $('#submitBtn');
@@ -134,16 +160,38 @@
                 });
             });
             
-            // Habilitar el botón de envío cuando se selecciona un equipo
+            // Cuando se selecciona un equipo
             $('#team').change(function() {
+                const teamId = $(this).val();
+                const teamName = $('#team option:selected').text().trim();
+                
+                console.log('=== CAMBIO DE EQUIPO ===');
+                console.log('Equipo seleccionado - ID:', teamId, 'Nombre:', teamName);
+                console.log('Usuario autenticado - ID:', {{ Auth::id() ?? 'null' }});
+                console.log('========================');
                 $('#submitBtn').prop('disabled', !$(this).val());
             });
             
             // Manejar el envío del formulario
             $('#teamSelectionForm').submit(function(e) {
-                if (!$('#team').val()) {
+                const teamId = $('#team').val();
+                const leagueId = $('#league').val();
+                
+                console.log('=== INTENTO DE ENVÍO DE FORMULARIO ===');
+                console.log('Team ID seleccionado:', teamId);
+                console.log('League ID seleccionada:', leagueId);
+                console.log('Valor del campo oculto league_id:', $('#leagueId').val());
+                
+                if (!teamId) {
                     e.preventDefault();
+                    console.log('Error: No se ha seleccionado un equipo');
                     alert('Si us plau, selecciona un equip');
+                } else if (!leagueId) {
+                    e.preventDefault();
+                    console.log('Error: No se ha seleccionado una liga');
+                    alert('Si us plau, selecciona una lliga');
+                } else {
+                    console.log('Formulario enviado correctamente');
                 }
             });
         });

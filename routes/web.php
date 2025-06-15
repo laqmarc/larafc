@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TeamSelectionController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 // Ruta de bienvenida
@@ -29,9 +30,18 @@ Route::middleware(['auth'])->group(function () {
 // Rutas que requieren autenticación Y equipo seleccionado
 Route::middleware(['auth', 'team.selected'])->group(function () {
     // Dashboard (solo accesible con equipo seleccionado)
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    
+    // Rutas del dashboard
+    Route::prefix('dashboard')->name('dashboard.')->group(function () {
+        // Finanzas
+        Route::get('/finanzas', [DashboardController::class, 'finances'])->name('finances');
+        
+        // Plantilla
+        Route::get('/plantilla', [DashboardController::class, 'squad'])->name('squad');
+        
+        // Otras secciones del dashboard pueden ir aquí
+    });
     
     // Perfil de usuario
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
